@@ -1,15 +1,18 @@
-# Cadastro de Produtos
+# 🚀 Cadastro de Produtos
+
+***Usando PHP Laravel 11***
 
 ## Passo a Passo do Projeto
 
-- Criação do Model e Migration.
-- Criação do Controller com as Funções CRUD.
-- Definição das Rotas.
-- Desenvolvimento das Views com Bootstrap.
-- Configuração da Home Page para listar produtos.
-</ hr>
+- ✅ Criação do Model e Migration.
+- ✅ Criação do Controller com as Funções CRUD.
+- ✅ Definição das Rotas.
+- ✅ Desenvolvimento das Views com Bootstrap.
+- ✅ Configuração da Home Page para listar produtos.
 
-1. Configuração do Banco de Dados
+</hr>
+
+***㏈ Configuração do Banco de Dados:***
 No arquivo .env, configure o acesso ao seu banco de dados MySQL:
 
 ```DOTENV
@@ -29,7 +32,7 @@ CREATE DATABASE laravel_products;
 
 </hr>
 
-2. Criação do Model e Migration
+***Criação do Model e Migration***
 Crie um Model Product com a migration associada:
 
 ```bash
@@ -37,6 +40,8 @@ php artisan make:model Product -m
 ```
 
 No arquivo database/migrations/xxxx_xx_xx_xxxxxx_create_products_table.php, adicione os campos necessários:
+
+**Exemplo:**
 
 ```PHP
 public function up()
@@ -52,7 +57,7 @@ public function up()
 }
 ```
 
-Rode a migration:
+**Rode a migration:**
 
 ```bash
 php artisan migrate
@@ -60,90 +65,18 @@ php artisan migrate
 
 </hr>
 
-3. Criação do Controller com as Funções CRUD
+***Criação do Controller com as Funções CRUD***
 Crie o controller ProductController com os métodos CRUD:
 
-```bash
+```PHP
 php artisan make:controller ProductController --resource
 ```
 
-No arquivo app/Http/Controllers/ProductController.php, adicione o seguinte código:
-
-```PHP
-<?php
-
-namespace App\Http\Controllers;
-
-use App\Models\Product;
-use Illuminate\Http\Request;
-
-class ProductController extends Controller
-{
-    // Listar todos os produtos
-    public function index()
-    {
-        $products = Product::all();
-        return view('products.index', compact('products'));
-    }
-
-    // Mostrar formulário para criar um novo produto
-    public function create()
-    {
-        return view('products.create');
-    }
-
-    // Armazenar um novo produto
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'amount' => 'required|integer',
-        ]);
-
-        Product::create($request->all());
-        return redirect()->route('products.index')->with('success', 'Produto criado com sucesso.');
-    }
-
-    // Mostrar detalhes de um produto
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
-    }
-
-    // Mostrar formulário para editar um produto
-    public function edit(Product $product)
-    {
-        return view('products.edit', compact('product'));
-    }
-
-    // Atualizar um produto
-    public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'amount' => 'required|integer',
-        ]);
-
-        $product->update($request->all());
-        return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso.');
-    }
-
-    // Deletar um produto
-    public function destroy(Product $product)
-    {
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Produto deletado com sucesso.');
-    }
-}
-```
+Adicione o código do arquivo app/Http/Controllers/ProductController.php:
 
 </hr>
 
-4. Definição das Rotas
+***Definição das Rotas***
 No arquivo routes/web.php, adicione as rotas para os produtos:
 
 ```PHP
@@ -156,61 +89,22 @@ Route::resource('products', ProductController::class);
 
 </hr>
 
-5. Desenvolvimento das Views com Bootstrap
-Crie as views em resources/views/products/:
+***Desenvolvimento das Views com Bootstrap***
+No diretorio resources/views crie o diretorio products.
 
-5.1. index.blade.php
+Crie as views em resources/views/products/
 
-```HTML
-@extends('layouts.app')
+- index.blade.php
+- create.blade.php
+- edit.blade.php
+- show.blade.php
 
-@section('content')
-<div class="container">
-    <h1 class="my-4">Lista de Produtos</h1>
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Adicionar Produto</a>
+***Styles:***
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($products as $product)
-            <tr>
-                <td>{{ $product->id }}</td>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->description }}</td>
-                <td>R$ {{ number_format($product->price, 2, ',', '.') }}</td>
-                <td>{{ $product->amount }}</td>
-                <td>
-                    <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm">Visualizar</a>
-                    <a href="{{ route('products.edit', $product) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza?')">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
-```
-
-5.2. Layout Base layouts/app.blade.php
+- Layout Base layouts/app.blade.php
 Crie o layout base em resources/views/layouts/app.blade.php:
+
+**Exemplo**:
 
 ```HTML
 <!DOCTYPE html>
@@ -231,21 +125,22 @@ Crie o layout base em resources/views/layouts/app.blade.php:
 
 </hr>
 
-6. Configuração da Home Page
+***Configuração da Home Page***
 A rota raiz (/) já foi configurada para listar os produtos na view index.blade.php.
 
 </hr>
 
-Conclusão
-Com essas configurações, você tem um CRUD funcional de produtos em Laravel 11 usando Bootstrap para o layout. Certifique-se de rodar o servidor para testar:
+**Conclusão:**
+*Com essas configurações, você tem um CRUD funcional de produtos em Laravel 11 usando Bootstrap para o layout. Certifique-se de rodar o servidor para testar:*
 
 ```PHP
 php artisan serve
 ```
 
-Resolvendo o Problema:
+***Resolvendo o Problema:***
+Se você tiver problema com chave KEY ao rodar o programa siga os passos abaixo.
 
-1 - Gerar uma chave KEY
+*1 - Gerar uma chave KEY*
 
 ```PHP
 php artisan key:generate
@@ -253,13 +148,13 @@ php artisan key:generate
 
 A chave gerada será incluida no arquivo .env automaticamente.
 
-2 - Limpar o cache.
+*2 - Limpar o cache.*
 
 ```PHP
 php artisan config:cache
 ```
 
-3 - Reiniciar o servidor
+*3 - Reiniciar o servidor*
 
 ```PHP
 php artisan serve
@@ -267,16 +162,19 @@ php artisan serve
 
 ***Se for necessário criar  uma database sessions.***
 
-Crie a migration para sessões:
+*Crie a migration para sessões:*
 
 Laravel já possui uma migration padrão para a tabela sessions, mas caso ela não esteja presente, você pode criar uma nova com o seguinte comando:
 
-bash
-Copiar código
+```PHP
 php artisan make:migration create_sessions_table
+```
+
 Edite a migration (se necessário):
 
 Se a migration padrão estiver ausente ou se precisar editar algo, a estrutura básica deve ser assim:
+
+**Exemplo:**
 
 ```PHP
 
@@ -293,40 +191,22 @@ public function up()
 }
 ```
 
-Rode a migration:
-
-```PHP
-php artisan migrate
-```
-
-Limpe o cache da aplicação:
-
-```PHP
-php artisan config:cache
-php artisan cache:clear
-php artisan view:clear
-```
-
-Reinicie o servidor:
-
-```PHP
-php artisan serve
-```
-
 ***Usando o Seeder***
 
 Passo a Passo
 Crie um Seeder:
 
-bash
-Copiar código
+```php
 php artisan make:seeder ProductSeeder
+```
+
 Edite o Seeder:
 
 Abra o arquivo database/seeders/ProductSeeder.php e adicione os seguintes dados:
 
-```php
+**Exemplo**:
 
+```php
 <?php
 
 namespace Database\Seeders;
@@ -358,9 +238,11 @@ class ProductSeeder extends Seeder
 }
 ```
 
-Registre o Seeder em DatabaseSeeder.php:
+**Registre o Seeder em DatabaseSeeder.php:**
 
 Abra o arquivo database/seeders/DatabaseSeeder.php e adicione a chamada ao ProductSeeder:
+
+**Exemplo:**
 
 ```php
 public function run()
@@ -369,8 +251,44 @@ public function run()
 }
 ```
 
-Execute o Seeder:
+**`Execute o Seeder:`**
 
 ```PHP
 php artisan db:seed
 ```
+
+**Rode a migration:**
+
+```PHP
+php artisan migrate
+```
+
+> [!TIP]
+> Limpe o cache da aplicação:
+
+```PHP
+php artisan config:cache
+php artisan cache:clear
+php artisan view:clear
+```
+
+> [!TIP]
+> Reinicie o servidor:
+
+```PHP
+php artisan serve
+```
+
+</hr>
+
+### 📽️ Para rodar o Projeto
+
+- 💡 Faça o clone do Projeto
+[Laravel_products](https://github.com/cabraldasilvac/laravel_products.git)
+
+- ⚙️ Configure o .env com os dados do seu DB.
+- ⚙️ Inicie o MySQL ou outro gerenciador de Banco de Dados preferido.
+
+</hr>
+
+### 💡 Sugestões e orientações sempre são bem-vindas

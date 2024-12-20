@@ -11,11 +11,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-<<<<<<< HEAD
-||||||| 0240e7a
-        return view('products.index', compact('products'));
-    }
-=======
 
         // Calcula o valor total de cada produto (preço * quantidade)
         foreach ($products as $product) {
@@ -31,22 +26,7 @@ class ProductController extends Controller
 
         return view('products.index', compact('products', 'totalPrice', 'totalAmount'));
     }
->>>>>>> develop
 
-        // Calcula o valor total de cada produto (preço * quantidade)
-        foreach ($products as $product) {
-            $product->total_value = $product->price * $product->amount;
-        }
-
-        // Calcula o total geral dos preços e quantidades
-        $totalPrice = $products->sum(function ($product) {
-            return $product->price * $product->amount;
-        });
-
-        $totalAmount = $products->sum('amount');
-
-        return view('products.index', compact('products', 'totalPrice', 'totalAmount'));
-    }
     // Mostrar formulário para criar um novo produto
     public function create()
     {

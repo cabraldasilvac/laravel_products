@@ -10,7 +10,7 @@
 - ✅ Desenvolvimento das Views com Bootstrap.
 - ✅ Configuração da Home Page para listar produtos.
 
-</hr>
+#
 
 ***㏈ Configuração do Banco de Dados:***
 No arquivo .env, configure o acesso ao seu banco de dados MySQL:
@@ -30,7 +30,7 @@ Crie o banco de dados no MySQL:
 CREATE DATABASE laravel_products;
 ```
 
-</hr>
+#
 
 ***Criação do Model e Migration***
 Crie um Model Product com a migration associada:
@@ -41,7 +41,7 @@ php artisan make:model Product -m
 
 No arquivo database/migrations/xxxx_xx_xx_xxxxxx_create_products_table.php, adicione os campos necessários:
 
-**Exemplo:**
+<details> <summary>**Exemplo:** </summary>
 
 ```PHP
 public function up()
@@ -57,13 +57,15 @@ public function up()
 }
 ```
 
+</details>
+
 **Rode a migration:**
 
 ```bash
 php artisan migrate
 ```
 
-</hr>
+#
 
 ***Criação do Controller com as Funções CRUD***
 Crie o controller ProductController com os métodos CRUD:
@@ -74,7 +76,7 @@ php artisan make:controller ProductController --resource
 
 Adicione o código do arquivo app/Http/Controllers/ProductController.php:
 
-</hr>
+#
 
 ***Definição das Rotas***
 No arquivo routes/web.php, adicione as rotas para os produtos:
@@ -87,9 +89,10 @@ Route::get('/', [ProductController::class, 'index']);
 Route::resource('products', ProductController::class);
 ```
 
-</hr>
+#
 
-***Desenvolvimento das Views com Bootstrap***
+<details><summary>Desenvolvimento das Views com Bootstrap* </summary>
+
 No diretorio resources/views crie o diretorio products.
 
 Crie as views em resources/views/products/
@@ -123,75 +126,16 @@ Crie o layout base em resources/views/layouts/app.blade.php:
 </html>
 ```
 
-</hr>
+</details>
+
+#
 
 ***Configuração da Home Page***
 A rota raiz (/) já foi configurada para listar os produtos na view index.blade.php.
 
-</hr>
+#
 
-**Conclusão:**
-*Com essas configurações, você tem um CRUD funcional de produtos em Laravel 11 usando Bootstrap para o layout. Certifique-se de rodar o servidor para testar:*
-
-```PHP
-php artisan serve
-```
-
-***Resolvendo o Problema:***
-Se você tiver problema com chave KEY ao rodar o programa siga os passos abaixo.
-
-*1 - Gerar uma chave KEY*
-
-```PHP
-php artisan key:generate
-```
-
-A chave gerada será incluida no arquivo .env automaticamente.
-
-*2 - Limpar o cache.*
-
-```PHP
-php artisan config:cache
-```
-
-*3 - Reiniciar o servidor*
-
-```PHP
-php artisan serve
-```
-
-***Se for necessário criar  uma database sessions.***
-
-*Crie a migration para sessões:*
-
-Laravel já possui uma migration padrão para a tabela sessions, mas caso ela não esteja presente, você pode criar uma nova com o seguinte comando:
-
-```PHP
-php artisan make:migration create_sessions_table
-```
-
-Edite a migration (se necessário):
-
-Se a migration padrão estiver ausente ou se precisar editar algo, a estrutura básica deve ser assim:
-
-**Exemplo:**
-
-```PHP
-
-public function up()
-{
-    Schema::create('sessions', function (Blueprint $table) {
-        $table->string('id')->unique();
-        $table->foreignId('user_id')->nullable()->index();
-        $table->string('ip_address', 45)->nullable();
-        $table->text('user_agent')->nullable();
-        $table->longText('payload');
-        $table->integer('last_activity')->index();
-    });
-}
-```
-
-***Usando o Seeder***
+<details><summary>Usando o Seeder</summary>
 
 Passo a Passo
 Crie um Seeder:
@@ -262,6 +206,76 @@ php artisan db:seed
 ```PHP
 php artisan migrate
 ```
+
+</details>
+
+#
+
+<details><summary> Conclusão:</summary>
+
+*Com essas configurações, você tem um CRUD funcional de produtos em Laravel 11 usando Bootstrap para o layout. Certifique-se de rodar o servidor para testar:*
+
+```PHP
+php artisan serve
+```
+
+***Resolvendo o Problema:***
+Se você tiver problema com chave KEY ao rodar o programa siga os passos abaixo.
+
+*1 - Gerar uma chave KEY*
+
+```PHP
+php artisan key:generate
+```
+
+A chave gerada será incluida no arquivo .env automaticamente.
+
+*2 - Limpar o cache.*
+
+```PHP
+php artisan config:cache
+```
+
+*3 - Reiniciar o servidor*
+
+```PHP
+php artisan serve
+```
+
+***Se for necessário criar  uma database sessions.***
+
+*Crie a migration para sessões:*
+
+Laravel já possui uma migration padrão para a tabela sessions, mas caso ela não esteja presente, você pode criar uma nova com o seguinte comando:
+
+```PHP
+php artisan make:migration create_sessions_table
+```
+
+Edite a migration (se necessário):
+
+Se a migration padrão estiver ausente ou se precisar editar algo, a estrutura básica deve ser assim:
+
+**Exemplo:**
+
+```PHP
+
+public function up()
+{
+    Schema::create('sessions', function (Blueprint $table) {
+        $table->string('id')->unique();
+        $table->foreignId('user_id')->nullable()->index();
+        $table->string('ip_address', 45)->nullable();
+        $table->text('user_agent')->nullable();
+        $table->longText('payload');
+        $table->integer('last_activity')->index();
+    });
+}
+```
+
+</details>
+
+</hr>
 
 > [!TIP]
 > Limpe o cache da aplicação:
